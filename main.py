@@ -1,5 +1,6 @@
 import argparse
 from enum import Enum
+import engine
 import sys
 
 
@@ -18,6 +19,7 @@ class RunOpponent(Enum):
 
 def run(opponent: RunOpponent):
     print(f"Running against opponent {opponent.value}")
+    engine.update_if_not_latest()
 
 
 def serve(port: int):
