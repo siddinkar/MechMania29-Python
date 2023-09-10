@@ -7,8 +7,8 @@ from game.util.assert_blob_has_key_of_type import assert_blob_has_key_of_type
 @dataclass
 class GameState:
     turn: int
-    characters: list[Character]
-    terrains: list[Terrain]
+    characters: dict[str, Character]
+    terrains: dict[str, Terrain]
 
     def from_json(blob: object) -> "GameState":
         try:
@@ -21,20 +21,20 @@ class GameState:
             raw_characters: dict = blob["characterStates"]
             raw_terrain: dict = blob["terrainStates"]
 
-            characters = []
-            terrains = []
+            characters: dict[str, Character] = dict()
+            terrains: dict[str, Terrain] = dict()
 
             for [id, character_blob] in raw_characters.items():
                 character = Character.from_json(character_blob)
 
                 if character:
-                    characters.append(character)
+                    characters[id] = character
 
             for [id, terrain_blob] in raw_terrain.items():
                 terrain = Terrain.from_json(terrain_blob)
 
                 if terrain:
-                    terrains.append(terrain)
+                    terrains[id] = terrain
         except:
             print("Failed to validate Game State json")
             raise
