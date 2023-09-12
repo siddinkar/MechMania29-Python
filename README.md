@@ -2,8 +2,69 @@
 
 ## Installation
 
-TODO
+To begin, make sure you have Java 17+ installed. You can test this by running:
+
+```sh
+java --version
+```
+
+Also, you'll need python3, and you can make sure you have it by running:
+
+```sh
+python --version
+```
+
+If you have python2 as well, you may have to use python3 instead:
+
+```sh
+python3 --version
+```
+
+Make sure you use the right one so you're using 3, or things will break!
 
 ## Usage
 
-To start your bot, you can simply run `python bot.py`
+To modify your strategy, you'll want to edit `strategy/strategy.py`.
+You should only need to edit files in the strategy directory.
+
+To run your client, you can use the following commands:
+
+### Run your bot against itself
+
+```sh
+python main.py run self
+```
+
+### Run your bot against the computer
+
+```sh
+python main.py run computer
+```
+
+### Serve your bot to a port
+
+You shouldn't need to do this, unless none of the other methods work.
+<details>
+<summary>Expand instructions</summary>
+
+To serve your bot to a port, you can run it like this:
+
+```sh
+python main.py serve [port]
+```
+
+Where port is the port you want to serve to, like 9001 for example:
+
+```sh
+python main.py serve 9001
+```
+
+A full setup with the engine might look like (all 3 commands in separate terminal windows):
+
+```sh
+python main.py serve 9001
+python main.py serve 9002
+java -jar engine.jar 9001 9002
+```
+
+</details>
