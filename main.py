@@ -74,7 +74,7 @@ def serve(port: int):
 
                     output = strategy.decide_moves(possible_moves, game_state)
 
-                    response = json.dumps(list(map(asdict, output)))
+                    response = json.dumps(list(map(MoveAction.serialize, output)))
 
                     client.write(response)
                 elif type == "ATTACK_PHASE":
@@ -90,7 +90,7 @@ def serve(port: int):
 
                     output = strategy.decide_attacks(possible_attacks, game_state)
 
-                    response = json.dumps(list(map(lambda x: x.to_dict(), output)))
+                    response = json.dumps(list(map(AttackAction.serialize, output)))
 
                     client.write(response)
                 elif type == "FINISH":

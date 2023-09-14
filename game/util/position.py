@@ -22,3 +22,9 @@ class Position:
             raise
 
         return position
+
+    def serialize(self) -> dict[str, object]:
+        return {
+            "x": self.x,
+            "y": self.y,
+        }

@@ -13,11 +13,6 @@ class AttackAction:
     attacking_id: str
     type: AttackActionType
 
-    def to_dict(self):
-        dict = asdict(self)
-        dict["type"] = dict["type"].value
-        return dict
-
     def deserialize(blob: object) -> "AttackAction":
         try:
             assert_blob_has_key_of_type(blob, "executingCharacterId", str)
@@ -37,3 +32,10 @@ class AttackAction:
             raise
 
         return action
+
+    def serialize(self) -> dict[str, object]:
+        return {
+            "executingCharacterId": self.executing_character_id,
+            "attackingId": self.attacking_id,
+            "type": self.type.value,
+        }

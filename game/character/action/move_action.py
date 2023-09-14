@@ -26,3 +26,9 @@ class MoveAction:
             raise
 
         return action
+
+    def serialize(self) -> dict[str, object]:
+        return {
+            "executingCharacterId": self.executing_character_id,
+            "destination": self.destination.serialize(),
+        }
