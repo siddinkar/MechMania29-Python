@@ -12,7 +12,7 @@ class Position:
     x: int
     y: int
 
-    def from_json(blob: object) -> "Position":
+    def deserialize(blob: object) -> "Position":
         try:
             assert_blob_has_key_of_type(blob, "x", int)
             assert_blob_has_key_of_type(blob, "y", int)

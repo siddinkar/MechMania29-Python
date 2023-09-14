@@ -18,7 +18,7 @@ class AttackAction:
         dict["type"] = dict["type"].value
         return dict
 
-    def from_json(blob: object) -> "AttackAction":
+    def deserialize(blob: object) -> "AttackAction":
         try:
             assert_blob_has_key_of_type(blob, "executingCharacterId", str)
             assert_blob_has_key_of_type(blob, "attackingId", str)

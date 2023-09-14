@@ -10,7 +10,7 @@ class GameState:
     characters: dict[str, Character]
     terrains: dict[str, Terrain]
 
-    def from_json(blob: object) -> "GameState":
+    def deserialize(blob: object) -> "GameState":
         try:
             assert_blob_has_key_of_type(blob, "turn", int)
             assert_blob_has_key_of_type(blob, "characterStates", dict)
@@ -25,13 +25,13 @@ class GameState:
             terrains: dict[str, Terrain] = dict()
 
             for [id, character_blob] in raw_characters.items():
-                character = Character.from_json(character_blob)
+                character = Character.deserialize(character_blob)
 
                 if character:
                     characters[id] = character
 
             for [id, terrain_blob] in raw_terrain.items():
-                terrain = Terrain.from_json(terrain_blob)
+                terrain = Terrain.deserialize(terrain_blob)
 
                 if terrain:
                     terrains[id] = terrain

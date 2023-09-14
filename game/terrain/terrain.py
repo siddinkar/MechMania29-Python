@@ -14,7 +14,7 @@ class Terrain:
     health: int
     can_attack_through: bool
 
-    def from_json(blob: object) -> "Terrain":
+    def deserialize(blob: object) -> "Terrain":
         try:
             assert_blob_has_key_of_type(blob, "id", str)
             assert_blob_has_key_of_type(blob, "position", dict)
@@ -22,7 +22,7 @@ class Terrain:
             assert_blob_has_key_of_type(blob, "canAttackThrough", bool)
             terrain = Terrain(
                 blob["id"],
-                Position.from_json(blob["position"]),
+                Position.deserialize(blob["position"]),
                 blob["health"],
                 blob["canAttackThrough"],
             )
