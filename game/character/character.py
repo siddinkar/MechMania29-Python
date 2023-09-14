@@ -15,7 +15,7 @@ class Character:
     health: int
     is_stunned: bool
 
-    def from_json(blob: object) -> "Character":
+    def deserialize(blob: object) -> "Character":
         try:
             assert_blob_has_key_of_type(blob, "id", str)
             assert_blob_has_key_of_type(blob, "position", dict)
@@ -24,7 +24,7 @@ class Character:
             assert_blob_has_key_of_type(blob, "stunned", bool)
             character = Character(
                 blob["id"],
-                Position.from_json(blob["position"]),
+                Position.deserialize(blob["position"]),
                 blob["zombie"],
                 blob["health"],
                 blob["stunned"],

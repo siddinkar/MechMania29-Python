@@ -9,7 +9,7 @@ class ReceivedMessage:
     type: str
     message: object
 
-    def from_json(blob: object) -> "ReceivedMessage":
+    def deserialize(blob: object) -> "ReceivedMessage":
         try:
             assert_blob_has_key_of_type(blob, "isZombie", bool)
             assert_blob_has_key_of_type(blob, "type", str)

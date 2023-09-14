@@ -47,13 +47,13 @@ def serve(port: int):
         if raw_received:
             try:
                 received = json.loads(raw_received)
-                received_message = ReceivedMessage.from_json(received)
+                received_message = ReceivedMessage.deserialize(received)
                 is_zombie = received_message.is_zombie
                 type = received_message.type
                 message = received_message.message
 
                 if type != "FINISH":
-                    game_state = GameState.from_json(message)
+                    game_state = GameState.deserialize(message)
 
                     print(
                         f"[TURN {game_state.turn}]: Getting your bot's response to {type}..."
@@ -68,13 +68,13 @@ def serve(port: int):
                     for [id, possibles] in raw_possible_moves.items():
                         actions: list[MoveAction] = list()
                         for possible in possibles:
-                            actions.append(MoveAction.from_json(possible))
+                            actions.append(MoveAction.deserialize(possible))
 
                         possible_moves[id] = actions
 
                     output = strategy.decide_moves(possible_moves, game_state)
 
-                    response = json.dumps(list(map(asdict, output)))
+                    response = json.dumps(list(map(MoveAction.serialize, output)))
 
                     client.write(response)
                 elif type == "ATTACK_PHASE":
@@ -84,13 +84,13 @@ def serve(port: int):
                     for [id, possibles] in raw_possible_attacks.items():
                         actions: list[AttackAction] = list()
                         for possible in possibles:
-                            actions.append(AttackAction.from_json(possible))
+                            actions.append(AttackAction.deserialize(possible))
 
                         possible_attacks[id] = actions
 
                     output = strategy.decide_attacks(possible_attacks, game_state)
 
-                    response = json.dumps(list(map(lambda x: x.to_dict(), output)))
+                    response = json.dumps(list(map(AttackAction.serialize, output)))
 
                     client.write(response)
                 elif type == "FINISH":
