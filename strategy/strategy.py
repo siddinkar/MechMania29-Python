@@ -47,7 +47,7 @@ class Strategy:
 
     def decide_abilities(
         self, possible_abilities: dict[str, list[AbilityAction]], game_state: GameState
-    ) -> list[MoveAction]:
+    ) -> list[AbilityAction]:
         """
         Decide the moves for each character based on the current game state
 
