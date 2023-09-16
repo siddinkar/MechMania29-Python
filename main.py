@@ -81,8 +81,6 @@ def serve(port: int):
 
                     response = json.dumps(output)
 
-                    print(response)
-
                     client.write(response)
                 elif type == "MOVE_PHASE":
                     raw_possible_moves: dict = message["possibleMoves"]
