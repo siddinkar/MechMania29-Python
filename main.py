@@ -74,6 +74,11 @@ def serve(port: int):
                         possible_classes, num_to_pick, max_per_same_class
                     )
 
+                    if raw_output == None:
+                        raise RuntimeError(
+                            "Your decide_character_classes strategy returned nothing (None)!"
+                        )
+
                     output = dict()
 
                     for [class_type, num] in raw_output.items():
@@ -95,6 +100,11 @@ def serve(port: int):
 
                     output = strategy.decide_moves(possible_moves, game_state)
 
+                    if output == None:
+                        raise RuntimeError(
+                            "Your decide_moves strategy returned nothing (None)!"
+                        )
+
                     response = json.dumps(list(map(MoveAction.serialize, output)))
 
                     client.write(response)
@@ -111,6 +121,11 @@ def serve(port: int):
 
                     output = strategy.decide_attacks(possible_attacks, game_state)
 
+                    if output == None:
+                        raise RuntimeError(
+                            "Your decide_attacks strategy returned nothing (None)!"
+                        )
+
                     response = json.dumps(list(map(AttackAction.serialize, output)))
 
                     client.write(response)
@@ -126,6 +141,11 @@ def serve(port: int):
                         possible_abilities[id] = actions
 
                     output = strategy.decide_abilities(possible_abilities, game_state)
+
+                    if output == None:
+                        raise RuntimeError(
+                            "Your decide_abilities strategy returned nothing (None)!"
+                        )
 
                     response = json.dumps(list(map(AbilityAction.serialize, output)))
 
@@ -150,6 +170,7 @@ def serve(port: int):
             except Exception as e:
                 print(f"Something went wrong running your bot: {e}")
                 traceback.print_exc()
+                client.write("null")
 
 
 def main():
