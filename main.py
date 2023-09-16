@@ -51,18 +51,20 @@ def serve(port: int):
                 received = json.loads(raw_received)
                 received_message = ReceivedMessage.deserialize(received)
                 is_zombie = received_message.is_zombie
-                type = received_message.type
+                phase = received_message.phase
                 message = received_message.message
                 turn = message["turn"]
 
-                if type != "CHOOSE_CLASSES_PHASE" and type != "FINISH":
+                if phase != "CHOOSE_CLASSES" and phase != "FINISH":
                     game_state = GameState.deserialize(message)
 
-                if type != "FINISH":
-                    print(f"[TURN {turn}]: Getting your bot's response to {type}...")
+                if phase != "FINISH":
+                    print(
+                        f"[TURN {turn}]: Getting your bot's response to {phase} phase..."
+                    )
                     strategy = choose_strategy(is_zombie)
 
-                if type == "CHOOSE_CLASSES_PHASE":
+                if phase == "CHOOSE_CLASSES":
                     raw_possible_classes: list = message["choices"]
                     possible_classes: list[CharacterClassType] = list(
                         map(lambda x: CharacterClassType[x], raw_possible_classes)
@@ -87,7 +89,7 @@ def serve(port: int):
                     response = json.dumps(output)
 
                     client.write(response)
-                elif type == "MOVE_PHASE":
+                elif phase == "MOVE":
                     raw_possible_moves: dict = message["possibleMoves"]
                     possible_moves = dict()
 
@@ -108,7 +110,7 @@ def serve(port: int):
                     response = json.dumps(list(map(MoveAction.serialize, output)))
 
                     client.write(response)
-                elif type == "ATTACK_PHASE":
+                elif phase == "ATTACK":
                     raw_possible_attacks: dict = message["possibleAttacks"]
                     possible_attacks = dict()
 
@@ -129,7 +131,7 @@ def serve(port: int):
                     response = json.dumps(list(map(AttackAction.serialize, output)))
 
                     client.write(response)
-                elif type == "ABILITY_PHASE":
+                elif phase == "ABILITY":
                     raw_possible_abilities: dict = message["possibleAbilities"]
                     possible_abilities = dict()
 
@@ -150,7 +152,7 @@ def serve(port: int):
                     response = json.dumps(list(map(AbilityAction.serialize, output)))
 
                     client.write(response)
-                elif type == "FINISH":
+                elif phase == "FINISH":
                     humans_score = message["scores"]["humans"]
                     zombies_score = message["scores"]["zombies"]
                     humans_left = message["stats"]["humansLeft"]
@@ -163,9 +165,9 @@ def serve(port: int):
                     )
                     break
                 else:
-                    raise RuntimeError(f"Unknown phase type {type}")
+                    raise RuntimeError(f"Unknown phase type {phase}")
 
-                print(f"[TURN {turn}]: Send response to {type} to server!")
+                print(f"[TURN {turn}]: Send response to {phase} phase to server!")
 
             except Exception as e:
                 print(f"Something went wrong running your bot: {e}")
