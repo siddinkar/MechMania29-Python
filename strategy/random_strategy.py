@@ -57,7 +57,7 @@ class RandomStrategy(Strategy):
 
     def decide_abilities(
         self, possible_abilities: dict[str, list[AbilityAction]], game_state: GameState
-    ) -> list[MoveAction]:
+    ) -> list[AbilityAction]:
         choices = []
 
         for [character_id, abilities] in possible_abilities.items():
