@@ -54,4 +54,4 @@ class Strategy:
         possible_abilities: Maps character id to it's possible abilities. You can use this to validate if a ability is possible, or pick from this list.
         game_state: The current state of all characters and terrain on the map
         """
-        raise NotImplementedError("Must implement the decide_moves method!")
+        raise NotImplementedError("Must implement the decide_abilities method!")
