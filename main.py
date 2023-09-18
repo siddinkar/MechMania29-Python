@@ -158,8 +158,17 @@ def serve(port: int):
                     humans_left = message["stats"]["humansLeft"]
                     zombies_left = message["stats"]["zombiesLeft"]
                     turn = message["stats"]["turns"]
+                    errors = message["errors"]
+                    your_errors = errors["zombieErrors" if is_zombie else "humanErrors"]
+                    formatted_errors = "\n".join(your_errors)
+                    formatted_errors_message = (
+                        f"Your bot had {len(your_errors)} errors:\n${formatted_errors}"
+                        if len(your_errors) > 0
+                        else "Your bot had no errors."
+                    )
 
                     print(
+                        f"\n{formatted_errors_message}\n\n"
                         f"Finished game on turn {turn} with {humans_left} humans and {zombies_left} zombies.\n"
                         + f"Score: {humans_score}-{zombies_score} (H-Z). You were the {'humans' if not is_zombie else 'zombies'}."
                     )
