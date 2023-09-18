@@ -15,7 +15,6 @@ class SimpleZombie(Strategy):
         self, possible_moves: dict[str, list[MoveAction]], game_state: GameState
     ) -> list[MoveAction]:
         choices = []
-        print(game_state.turn)
         for [character_id, moves] in possible_moves.items():
             if len(moves) == 0: # No choices... Next!
                 continue
@@ -42,7 +41,7 @@ class SimpleZombie(Strategy):
                 if distance < move_distance: # If distance is closer, that's our new choice!
                     move_distance = distance
                     move_choice = m
-            print(character_id, pos.x, pos.y, move_choice.destination.x, move_choice.destination.y)
+
             choices.append(move_choice) # add the choice to the list
 
         
