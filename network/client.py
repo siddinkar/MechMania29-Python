@@ -1,6 +1,7 @@
-import logging
 import socket
 import time
+
+INITIAL_TIMEOUT = 15
 
 
 class Client:
@@ -11,7 +12,12 @@ class Client:
         self.connected = False
 
     def connect(self):
+        start = time.time()
         while not self.connected:
+            if time.time() - start > INITIAL_TIMEOUT:
+                raise RuntimeError(
+                    f"Timeout when trying to connect to engine at {self.port_number}"
+                )
             address = (
                 "localhost",
                 self.port_number,
@@ -24,11 +30,13 @@ class Client:
                 time.sleep(1)
 
     def read(self) -> str:
+        self.socket.settimeout(None)
         data = self.socket_file.readline().strip()
 
         return data
 
     def write(self, message: str) -> None:
+        self.socket.settimeout(None)
         self.socket.sendall(str.encode(message + "\n"))
 
     def disconnect(self):
