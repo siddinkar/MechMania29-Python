@@ -18,11 +18,11 @@ from strategy.strategy import Strategy
 
 class SimpleHumanStrategy(Strategy):
     def decide_character_classes(
-        self,
-        possible_classes: list[CharacterClassType],
-        num_to_pick: int,
-        max_per_same_class: int,
-    ) -> dict[CharacterClassType, int]:
+            self,
+            possible_classes: list[CharacterClassType],
+            num_to_pick: int,
+            max_per_same_class: int,
+            ) -> dict[CharacterClassType, int]:
         # The maximum number of special classes we can choose is 16
         # Selecting 6 Marksmen, 6 Medics, and 4 Traceurs
         # The other 4 humans will be regular class
@@ -31,12 +31,14 @@ class SimpleHumanStrategy(Strategy):
             CharacterClassType.MEDIC: 6,
             CharacterClassType.TRACEUR: 4,
         }
-
         return choices
 
     def decide_moves(
-        self, possible_moves: dict[str, list[MoveAction]], game_state: GameState
-    ) -> list[MoveAction]:
+            self, 
+            possible_moves: dict[str, list[MoveAction]], 
+            game_state: GameState
+            ) -> list[MoveAction]:
+        
         choices = []
 
         for [character_id, moves] in possible_moves.items():
@@ -45,38 +47,27 @@ class SimpleHumanStrategy(Strategy):
 
             pos = game_state.characters[character_id].position  # position of the human
             closest_zombie_pos = pos  # default position is zombie's pos
-            closest_zombie_distance = (
-                1234  # large number, map isn't big enough to reach this distance
-            )
+            closest_zombie_distance =  1234  # large number, map isn't big enough to reach this distance
+            
 
             # Iterate through every zombie to find the closest one
             for c in game_state.characters.values():
                 if not c.is_zombie:
                     continue  # Fellow humans are frens :D, ignore them
 
-                distance = abs(c.position.x - pos.x) + abs(
-                    c.position.y - pos.y
-                )  # calculate manhattan distance between human and zombie
-                if (
-                    distance < closest_zombie_distance
-                ):  # If distance is closer than current closest, replace it!
+                distance = abs(c.position.x - pos.x) + abs(c.position.y - pos.y)  # calculate manhattan distance between human and zombie
+                if distance < closest_zombie_distance:  # If distance is closer than current closest, replace it!
                     closest_zombie_pos = c.position
                     closest_zombie_distance = distance
 
             # Move as far away from the zombie as possible
-            move_distance = (
-                -1
-            )  # Distance between the move action's destination and the closest zombie
+            move_distance = -1  # Distance between the move action's destination and the closest zombie
             move_choice = moves[0]  # The move action the human will be taking
 
             for m in moves:
-                distance = abs(m.destination.x - closest_zombie_pos.x) + abs(
-                    m.destination.y - closest_zombie_pos.y
-                )  # calculate manhattan distance
+                distance = abs(m.destination.x - closest_zombie_pos.x) + abs(m.destination.y - closest_zombie_pos.y)  # calculate manhattan distance
 
-                if (
-                    distance > move_distance
-                ):  # If distance is further, that's our new choice!
+                if distance > move_distance:  # If distance is further, that's our new choice!
                     move_distance = distance
                     move_choice = m
 
@@ -85,8 +76,10 @@ class SimpleHumanStrategy(Strategy):
         return choices
 
     def decide_attacks(
-        self, possible_attacks: dict[str, list[AttackAction]], game_state: GameState
-    ) -> list[AttackAction]:
+            self, 
+            possible_attacks: dict[str, list[AttackAction]], 
+            game_state: GameState
+            ) -> list[AttackAction]:
         choices = []
 
         for [character_id, attacks] in possible_attacks.items():
@@ -100,16 +93,11 @@ class SimpleHumanStrategy(Strategy):
             # Iterate through zombies in range and find the closest one
             for a in attacks:
                 if a.type is AttackActionType.CHARACTER:
-                    attackee_pos = game_state.characters[
-                        a.attacking_id
-                    ].position  # Get position of zombie in question
-                    distance = abs(attackee_pos.x - pos.x) + abs(
-                        attackee_pos.y - pos.y
-                    )  # Get distance between the two
+                    attackee_pos = game_state.characters[a.attacking_id].position  # Get position of zombie in question
+                    
+                    distance = abs(attackee_pos.x - pos.x) + abs(attackee_pos.y - pos.y)  # Get distance between the two
 
-                    if (
-                        distance < closest_zombie_distance
-                    ):  # Closer than current? New target!
+                    if distance < closest_zombie_distance:  # Closer than current? New target!
                         closest_zombie = a
                         closest_zombie_distance = distance
 
@@ -119,8 +107,10 @@ class SimpleHumanStrategy(Strategy):
         return choices
 
     def decide_abilities(
-        self, possible_abilities: dict[str, list[AbilityAction]], game_state: GameState
-    ) -> list[AbilityAction]:
+            self, 
+            possible_abilities: dict[str, list[AbilityAction]], 
+            game_state: GameState
+            ) -> list[AbilityAction]:
         choices = []
 
         for [character_id, abilities] in possible_abilities.items():
@@ -132,16 +122,13 @@ class SimpleHumanStrategy(Strategy):
             least_health = 999  # The health of the human being targeted
 
             for a in abilities:
-                health = game_state.characters[
-                    a.character_id_target
-                ].health  # Health of human in question
+                health = game_state.characters[a.character_id_target].health  # Health of human in question
 
-                if (
-                    health < least_health
-                ):  # If they have less health, they are the new patient!
+                if health < least_health:  # If they have less health, they are the new patient!
                     human_target = a
                     least_health = health
 
             if human_target:  # Give the human a cookie
                 choices.append(human_target)
+        
         return choices
