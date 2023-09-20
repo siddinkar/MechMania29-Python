@@ -1,4 +1,19 @@
-# python-starterpack
+<div align="center">
+
+<a href="https://mechmania.org"><img width="25%" src="https://github.com/MechMania-29/Website/blob/main/images/mm29_logo.png" alt="MechMania 29"></a>
+
+### [website](https://mechmania.org) | python-starterpack | [java-starterpack](https://github.com/MechMania-29/java-starterpack) | [visualizer](https://github.com/MechMania-29/visualizer) | [engine](https://github.com/MechMania-29/engine)
+
+# MechMania Python Starterpack
+
+Welcome to MechMania! The python starterpack will allow you to write a python bot to compete against others.
+Two bots will be faced against each other, and then the [engine](https://github.com/MechMania-29/engine) will run a simulation to see who wins!
+After the engine runs you'll get a gamelog (a large json file) that you can use in the [visualizer](https://github.com/MechMania-29/visualizer) to
+visualize the game's progress and end result.
+
+</div>
+
+---
 
 ## Installation
 
@@ -15,6 +30,16 @@ python --version
 ```
 
 Make sure you're using 3, or things will break!
+
+To install the engine, you can simply run:
+
+```
+python engine.py
+```
+
+and you should see an engine.jar appear in engine/engine.jar!
+
+If you don't, you can manually install it by following the instructions on the [engine](https://github.com/MechMania-29/engine) page.
 
 ## Usage
 
