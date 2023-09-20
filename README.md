@@ -23,13 +23,13 @@ To begin, make sure you have Java 17+ installed. You can test this by running:
 java --version
 ```
 
-Also, you'll need python3, and you can make sure you have it by running:
+Also, you'll need python 3.9+, and you can make sure you have it by running:
 
 ```sh
 python --version
 ```
 
-Make sure you're using 3, or things will break!
+Make sure you're using 3.9+, or things will break!
 
 To install the engine, you can simply run:
 
