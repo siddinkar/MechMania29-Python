@@ -162,6 +162,8 @@ def serve(port: int):
 
     client.connect()
 
+    print(f"Connected to server on port {port}")
+
     while True:
         raw_received = client.read()
 
