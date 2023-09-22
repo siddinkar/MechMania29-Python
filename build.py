@@ -7,7 +7,15 @@ print("Building to build/bot.pyz...")
 if not os.path.exists("build"):
     os.makedirs("build", exist_ok=True)
 
-ignore_list = [".git", ".git/*", "build", "build/*", "README.md", "build.py"]
+ignore_list = [
+    ".git",
+    ".git/*",
+    "build",
+    "build/*",
+    "README.md",
+    "build.py",
+    "engine.py",
+]
 
 
 def filter(path):
