@@ -2,6 +2,7 @@ import socket
 import time
 
 INITIAL_TIMEOUT = 15
+SERVER_TURN_TIMEOUT = 30
 
 
 class Client:
@@ -30,13 +31,13 @@ class Client:
                 time.sleep(1)
 
     def read(self) -> str:
-        self.socket.settimeout(None)
+        self.socket.settimeout(SERVER_TURN_TIMEOUT)
         data = self.socket_file.readline().strip()
 
         return data
 
     def write(self, message: str) -> None:
-        self.socket.settimeout(None)
+        self.socket.settimeout(SERVER_TURN_TIMEOUT)
         self.socket.sendall(str.encode(message + "\n"))
 
     def disconnect(self):
