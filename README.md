@@ -43,7 +43,7 @@ If you don't, you can manually install it by following the instructions on the [
 
 ## Usage
 
-To modify your strategy, you'll want to edit `strategy/strategy.py`.
+To modify your strategy, you'll want to edit `strategy/choose_strategy.py`.
 You should only need to edit files in the strategy directory.
 
 To run your client, you can use the following commands:
